@@ -1,4 +1,3 @@
-
 player:
 
 	# check if they have a move card to get
@@ -10,8 +9,6 @@ player:
 	       	  discard card
 		  player.loc = spy_alley_guess
 		  make guess;
-		  
-	       
 
 	roll <- RollDie(1-6);
 	left <- roll

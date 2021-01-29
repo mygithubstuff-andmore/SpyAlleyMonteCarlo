@@ -1,0 +1,38 @@
+
+player:
+
+	# check if they have a move card to get
+	# to guess space if a player is in spy alley
+	if another player in spy alley:
+	   distance_to_guess <- compute_distance_to_guess
+	   for each card:
+	       if card == distance_to_guess:
+	       	  discard card
+		  player.loc = spy_alley_guess
+		  make guess;
+		  
+	       
+
+	roll <- RollDie(1-6);
+	left <- roll
+
+	# must enter spy alley if player landed on it as final move last turn.
+	if on enter spy alley:
+	   player.loc = current.alternate
+	   left--;
+	
+	do
+		if player.loc on enter spy alley:
+		   if another player in spy alley:
+		      # player chooses to enter spy alley if number gets them a guess
+		      if left == 2:
+		      	 # enter spy alley
+			 player.loc = player.loc.alternate
+			 left--;
+		else
+		  player.loc = player.loc.forward
+		  left--;
+			 
+		      
+	while(left)
+		

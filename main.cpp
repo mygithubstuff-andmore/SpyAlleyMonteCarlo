@@ -1,23 +1,24 @@
 #include "board.h"
 #include "player.h"
 #include <algorithm>
+#include <any>
+#include <chrono>
 #include <iostream>
 #include <iterator>
 #include <random>
 #include <vector>
 
+
 using namespace std;
 using namespace SpyAlley;
 
-std::default_random_engine generator;
+mt19937 generator(std::chrono::system_clock::now().time_since_epoch().count());
 
-auto make_player(int &count, vector<Spy>::iterator& spy) -> Player {
+void make_move(const vector<Board::Space> &board, Player &player,
+               vector<Player> &players, int roll, int left) {
 
-  Player player;
-  player.id = count++;
-  player.country = *spy;
-  ++spy;
-  return player;
+  auto &space = board[player.space];
+  space.action(board, player, players, roll, left);
 }
 
 int main(int argc, char **argv) {
@@ -33,11 +34,33 @@ int main(int argc, char **argv) {
 
   std::shuffle(spy_pick, as_end, generator);
 
-  vector<Player> players{make_player(count, spy_pick),
-                         make_player(count, spy_pick),
-                         make_player(count, spy_pick)};
+  vector<Player> players{make_player(count, spy_pick++),
+                         make_player(count, spy_pick++),
+                         make_player(count, spy_pick++)};
+
+  for (const auto &player : players) {
+    cout << player;
+  }
+
+  auto board = Board::make_board();
 
   while (!done) {
+
+    for (auto &player : players) {
+      int roll = roll_die();
+      int left = roll;
+
+      cout << player.id << " rolled " << roll << "\n";
+      while (left) {
+        // Run AI and move the player.
+        make_move(board, player, players, roll, left);
+        --left;
+      }
+
+      done = all_of(begin(players), end(players), [](const auto &player) {
+        return player.times_past_go > 0;
+      });
+    }
   }
 
   return 0;

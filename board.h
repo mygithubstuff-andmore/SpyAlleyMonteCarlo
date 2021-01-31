@@ -1,30 +1,64 @@
+#include <chrono>
+#include <functional>
 #include <optional>
+#include <random>
 #include <string>
 #include <vector>
 
-namespace SpyAlley{
-  struct Player;
+namespace SpyAlley {
+struct Player;
 }
+
+namespace SpyAlley {
+int roll_die();
+} // namespace SpyAlley
 
 namespace SpyAlley::Board {
 
-const int num_spaces = 24 + 9;
-  
-  struct Space {
-    int index = 0;
-    const int back = -1;
-    const int forward = -1;
-    const int alternate = -1; // path into spy alley.
-    virtual void action(Player &player, std::optional<Player*> other_player,
-                      int moves_left){};
+constexpr int num_spaces = 24;
+constexpr int num_spy_alley_spaces = 9;
+constexpr int spy_alley_begin = 24;
+constexpr int spy_alley_end = 32;
+
+struct Space;
+
+using BoardType = std::vector<Space>;
+
+std::vector<Space> make_board();
+
+enum class SpaceType {
+  NOOP,
+  START,
+  MOVE_CARD,
+  SPY_ALLEY_ENTRANCE,
+  SPY_ALLEY_GUESS
+};
+
+  typedef void(*Action)(const BoardType &board, Player &, std::vector<Player> &,
+			int, int);
+
+struct Space {
+  int index = 0;
+  int next = -1;
+  int back = -1;
+  const int alternate = -1; // path into spy alley.
+  const bool part_of_spy_alley = false;
+  SpaceType type = SpaceType::NOOP;
+
+  // player, players, roll, left
+  Action action;
 };
 
 namespace Actions {
-struct DrawMoveCard {
-  void action(Player &p1, Player &p2) {}
-};
 
-struct EnterSpyAlley {};
+void noop(const BoardType &board, Player &p1, std::vector<Player> &players,
+          int initial_roll, int moves_left);
+void check_enter_spy_alley(const BoardType &board, Player &p1,
+                           std::vector<Player> &players, int initial_roll,
+                           int moves_left);
+void start_space(const BoardType &board, Player &p1,
+                 std::vector<Player> &players, int initial_roll,
+                 int moves_left);
 
 } // namespace Actions
 

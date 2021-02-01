@@ -80,7 +80,7 @@ void make_guesses(const BoardType &board, Player &p1,
   }
 
   for (auto &other_player : players) {
-    if (in_spy_alley(other_player)) {
+    if (p1.id != other_player.id && in_spy_alley(other_player)) {
       vector<Spy> available_spies = {Spy::RUSSIAN, Spy::SPANISH,  Spy::GERMAN,
                                      Spy::FRENCH,  Spy::AMERICAN, Spy::ENGLISH};
 

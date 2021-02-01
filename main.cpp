@@ -38,10 +38,11 @@ int main(int argc, char **argv) {
     std::shuffle(spy_pick, as_end, generator);
 
     int count = 1;
-    Board::AllPlayers players{
-        make_player(count, spy_pick++), make_player(count, spy_pick++),
-        make_player(count, spy_pick++), make_player(count, spy_pick++),
-        make_player(count, spy_pick++), make_player(count, spy_pick++)};
+    Board::AllPlayers players;
+    generate_n(begin(players), Board::total_players, [&](){return make_player(count, spy_pick++);});
+    // make_player(count, spy_pick++), make_player(count, spy_pick++),
+    //   make_player(count, spy_pick++), make_player(count, spy_pick++),
+    //   make_player(count, spy_pick++), make_player(count, spy_pick++)}
 
     bool done = false;
     while (!done) {
@@ -72,6 +73,8 @@ int main(int argc, char **argv) {
     total++;
   }
 
+  cout << "Eliminated: " << eliminated_count << "\n";
+  cout << "total: " << total << "\n";
   cout << "Percent one eliminted: " << eliminated_count / total << "\n";
 
   return 0;

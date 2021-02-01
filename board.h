@@ -15,7 +15,7 @@ int roll_die();
 
 namespace SpyAlley::Board {
 
-constexpr int total_players = 6;
+constexpr int total_players = 1;
 constexpr int num_spaces = 24;
 constexpr int num_spy_alley_spaces = 9;
 constexpr int spy_alley_begin = 24;

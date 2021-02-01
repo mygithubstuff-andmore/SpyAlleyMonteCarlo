@@ -11,6 +11,7 @@ struct Player {
   Spy country = Spy::RUSSIAN;
   int space = 0;
   int times_past_go = -1;
+  bool eliminated = false;
 };
 
 inline auto make_player(int &count, std::vector<Spy>::iterator spy) -> Player {

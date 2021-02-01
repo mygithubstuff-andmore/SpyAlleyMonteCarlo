@@ -15,12 +15,15 @@ int roll_die();
 
 namespace SpyAlley::Board {
 
+constexpr int total_players = 6;
 constexpr int num_spaces = 24;
 constexpr int num_spy_alley_spaces = 9;
 constexpr int spy_alley_begin = 24;
 constexpr int spy_alley_end = 32;
 
 struct Space;
+
+using AllPlayers = std::array<Player, total_players>;
 
 using BoardType = std::vector<Space>;
 
@@ -34,8 +37,8 @@ enum class SpaceType {
   SPY_ALLEY_GUESS
 };
 
-  typedef void(*Action)(const BoardType &board, Player &, std::vector<Player> &,
-			int, int);
+typedef void (*Action)(const BoardType &board, Player &,
+                       AllPlayers &, int, int);
 
 struct Space {
   int index = 0;
@@ -51,15 +54,18 @@ struct Space {
 
 namespace Actions {
 
-void noop(const BoardType &board, Player &p1, std::vector<Player> &players,
+void noop(const BoardType &board, Player &p1, AllPlayers &players,
           int initial_roll, int moves_left);
 void check_enter_spy_alley(const BoardType &board, Player &p1,
-                           std::vector<Player> &players, int initial_roll,
+                           AllPlayers &players, int initial_roll,
                            int moves_left);
 void start_space(const BoardType &board, Player &p1,
-                 std::vector<Player> &players, int initial_roll,
+                 AllPlayers &players, int initial_roll,
                  int moves_left);
 
+void make_guesses(const BoardType &board, Player &p1,
+                  AllPlayers &players, int initial_roll,
+                  int moves_left);
 } // namespace Actions
 
 } // namespace SpyAlley::Board

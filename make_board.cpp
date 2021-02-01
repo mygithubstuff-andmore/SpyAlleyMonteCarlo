@@ -31,14 +31,14 @@ BoardType make_board() {
       Space{23, 0, 23, 0, false, SpaceType::NOOP, Actions::noop},
       // Begin Spy Alley Spaces
       Space{24, 25, 14, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{25, 26, 25, -1, true, SpaceType::SPY_ALLEY_GUESS, Actions::noop},
-      Space{26, 27, 26, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{27, 28, 27, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{28, 29, 28, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{29, 30, 29, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{30, 31, 30, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{31, 32, 31, -1, true, SpaceType::NOOP, Actions::noop},
-      Space{32, 22, 32, -1, true, SpaceType::NOOP, Actions::noop}};
+      Space{25, 26, 24, -1, true, SpaceType::SPY_ALLEY_GUESS, Actions::make_guesses},
+      Space{26, 27, 25, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{27, 28, 26, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{28, 29, 27, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{29, 30, 28, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{30, 31, 29, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{31, 32, 30, -1, true, SpaceType::NOOP, Actions::noop},
+      Space{32, 22, 31, -1, true, SpaceType::NOOP, Actions::noop}};
 
   return spaces;
 }
